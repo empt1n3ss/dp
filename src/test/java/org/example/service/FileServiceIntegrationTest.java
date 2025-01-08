@@ -23,7 +23,7 @@ class FileServiceIntegrationTest {
     void testUploadFile() throws Exception {
         MultipartFile file = new MockMultipartFile("testFile", "test.txt", "text/plain", "test content".getBytes());
 
-        fileService.uploadFile("valid-token", "test.txt", file);
+        fileService.uploadFile("test.txt", file);
 
         FileEntity savedFile = fileRepository.findByName("test.txt").orElse(null);
         assertNotNull(savedFile);

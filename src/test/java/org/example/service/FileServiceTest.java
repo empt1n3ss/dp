@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -24,38 +25,38 @@ public class FileServiceTest {
     }
 
     @Test
-    void downloadFile_ShouldReturnResource_WhenAuthorized() throws Exception {
+    void downloadFile_ShouldReturnResource() throws Exception {
         FileEntity file = new FileEntity();
         file.setName("test.txt");
         file.setContent("Test content".getBytes());
         fileRepository.save(file);
 
-        Resource resource = fileService.downloadFile("valid-token", "test.txt");
+        Resource resource = fileService.downloadFile("test.txt");
         assertNotNull(resource);
         assertEquals("test.txt", resource.getFilename());
     }
 
     @Test
-    void renameFile_ShouldRenameFile_WhenAuthorized() throws Exception {
+    void renameFile_ShouldRenameFile() throws Exception {
         FileEntity file = new FileEntity();
         file.setName("test.txt");
         file.setContent("Test content".getBytes());
         fileRepository.save(file);
 
-        fileService.renameFile("valid-token", "test.txt", "newName.txt");
+        fileService.renameFile("test.txt", "newName.txt");
 
         FileEntity renamedFile = fileRepository.findByName("newName.txt").orElseThrow();
         assertEquals("newName.txt", renamedFile.getName());
     }
 
     @Test
-    void deleteFile_ShouldDeleteFile_WhenAuthorized() throws Exception {
+    void deleteFile_ShouldDeleteFile() throws Exception {
         FileEntity file = new FileEntity();
         file.setName("test.txt");
         file.setContent("Test content".getBytes());
         fileRepository.save(file);
 
-        fileService.deleteFile("valid-token", "test.txt");
+        fileService.deleteFile("test.txt");
 
         assertFalse(fileRepository.existsByName("test.txt"));
     }
